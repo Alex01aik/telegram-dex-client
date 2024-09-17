@@ -1,0 +1,26 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "workbench.editor.enablePreview": false,
+  "editor.formatOnSave": true,
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/.pnpm-store/*/**": true,
+    "**/.rush/**": true,
+    "**/.swc/**": true,
+    "**/dist/*/**": true
+  }
+}

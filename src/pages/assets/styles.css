@@ -1,0 +1,12 @@
+.addressCell {
+    text-wrap: wrap;
+    cursor: pointer;
+}
+
+.addressCell:hover {
+    opacity: 0.7;
+}
+
+.addressCell:active {
+    opacity: 0.5;
+}
