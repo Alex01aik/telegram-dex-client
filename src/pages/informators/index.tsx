@@ -2,7 +2,7 @@ import Layout from "../../components/Layout";
 import type { TableColumnsType } from "antd";
 import { useLazyQuery, gql, useMutation } from "@apollo/client";
 import UITable from "../../components/UITable";
-import { Switch } from "antd";
+import { Flex, Switch } from "antd";
 import formatDate from "../../utils/formatDate";
 
 const findManyInformatorsQuery = gql`
@@ -12,6 +12,10 @@ const findManyInformatorsQuery = gql`
         id
         userName
         isTrusted
+        rate {
+          successes
+          fales
+        }
         createdAt
       }
       meta {
@@ -21,14 +25,14 @@ const findManyInformatorsQuery = gql`
   }
 `;
 
-const updateOneInformatorQuery = gql`
+const updateOneInformatorMutation = gql`
   mutation updateOneInformator(
     $id: String!
     $userName: String
     $isTrusted: Boolean
   ) {
     updateOneInformator(id: $id, userName: $userName, isTrusted: $isTrusted) {
-      success
+      id
     }
   }
 `;
@@ -36,7 +40,7 @@ const updateOneInformatorQuery = gql`
 const InformatorsPage: React.FC = () => {
   const [fetchData, { data: findManyData, loading: findManyLoading, refetch }] =
     useLazyQuery(findManyInformatorsQuery);
-  const [update] = useMutation(updateOneInformatorQuery);
+  const [update] = useMutation(updateOneInformatorMutation);
 
   const columns: TableColumnsType = [
     {
@@ -64,6 +68,33 @@ const InformatorsPage: React.FC = () => {
             await refetch();
           }}
         />
+      ),
+    },
+    {
+      title: "Rate",
+      width: 100,
+      dataIndex: "rate",
+      key: "rate",
+      render: (value) => (
+        <Flex gap={4}>
+          <div
+            style={{
+              color: "green",
+              fontWeight: "bold",
+            }}
+          >
+            {value.successes}
+          </div>
+          /
+          <div
+            style={{
+              color: "red",
+              fontWeight: "bold",
+            }}
+          >
+            {value.fales}
+          </div>
+        </Flex>
       ),
     },
     {

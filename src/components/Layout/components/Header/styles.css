@@ -1,4 +1,18 @@
+#header {
+    display: flex;
+    justify-content: space-between;
+}
+
 #text-logo {
     color: white;
     font-size: 1rem;
+}
+
+.header-icon {
+    color: white;
+    cursor: pointer;
+}
+
+.header-icon:hover {
+    opacity: 0.7;
 }

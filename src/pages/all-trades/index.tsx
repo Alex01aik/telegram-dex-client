@@ -74,12 +74,16 @@ const columns: TableColumnsType = [
   },
 ];
 
-const findManyTradesQuery = gql`
-  query findManyTrades($take: Int, $skip: Int) {
-    findManyTrades(take: $take, skip: $skip) {
+const findManyTradesForAllUsersQuery = gql`
+  query findManyTradesForAllUsers($take: Int, $skip: Int) {
+    findManyTradesForAllUsers(take: $take, skip: $skip) {
       trades {
         id
         createdAt
+        user {
+          id
+          name
+        }
         asset {
           address
           name
@@ -111,16 +115,18 @@ const findManyTradesQuery = gql`
   }
 `;
 
-const TradesPage: React.FC = () => {
-  const [fetchData, { data, loading }] = useLazyQuery(findManyTradesQuery);
+const AllTradesPage: React.FC = () => {
+  const [fetchData, { data, loading }] = useLazyQuery(
+    findManyTradesForAllUsersQuery
+  );
 
   return (
     <Layout>
       <UITable
         columns={columns}
         data={
-          data?.findManyTrades?.trades?.length
-            ? data.findManyTrades.trades.map((trade: any) => ({
+          data?.findManyTradesForAllUsers?.trades?.length
+            ? data.findManyTradesForAllUsers.trades.map((trade: any) => ({
                 ...trade,
                 key: trade.id,
               }))
@@ -128,10 +134,10 @@ const TradesPage: React.FC = () => {
         }
         loading={loading}
         fetchData={fetchData}
-        total={data?.findManyTrades?.meta.total}
+        total={data?.findManyTradesForAllUsers?.meta.total}
       />
     </Layout>
   );
 };
 
-export default TradesPage;
+export default AllTradesPage;

@@ -70,6 +70,12 @@ const expendedColumns: TableColumnsType = [
     key: "price",
   },
   {
+    title: "Liquidity",
+    width: 100,
+    dataIndex: "liquidity",
+    key: "liquidity",
+  },
+  {
     title: "Trend",
     width: 100,
     key: "trend",
@@ -78,18 +84,6 @@ const expendedColumns: TableColumnsType = [
         <div>{calculatePercentageDifference(value.price, value.prevPrice)}</div>
       );
     },
-  },
-  {
-    title: "Price in USD",
-    width: 100,
-    dataIndex: "priceInUsd",
-    key: "priceInUsd",
-  },
-  {
-    title: "Price Solana in USD",
-    width: 100,
-    dataIndex: "priceSolInUsd",
-    key: "priceSolInUsd",
   },
   {
     title: "Created at",
@@ -110,8 +104,7 @@ const findManySnapshotChainsQuery = gql`
         snapshots {
           id
           price
-          priceInUsd
-          priceSolInUsd
+          liquidity
           createdAt
         }
         asset {

@@ -25,8 +25,8 @@ const UITable: React.FC<UITableProps> = ({
   expandable,
 }) => {
   const take = 10;
-  const [skip, setSkip] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [skip, setSkip] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleTableChange = (page: number, pageSize: number) => {
     setCurrentPage(page);
