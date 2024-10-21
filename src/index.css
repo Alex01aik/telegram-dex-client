@@ -47,3 +47,13 @@ code {
 html, body {
   width: 100vw;
 }
+
+#view {
+  display: flex;
+}
+
+@media screen and (max-width: 600px) {
+  #view {
+    flex-direction: column;
+  }
+}

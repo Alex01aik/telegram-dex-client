@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import SideNav from "./components/SideNav";
 import Header from "./components/Header";
-import { Layout as AntdLayout, Flex } from "antd";
+import { Layout as AntdLayout } from "antd";
 
 export type LayoutProps = {} & PropsWithChildren;
 
@@ -9,7 +9,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <AntdLayout>
       <Header />
-      <Flex
+      <div
+        id="view"
         style={{
           minHeight: "calc(100vh - 64px)",
         }}
@@ -18,13 +19,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <AntdLayout.Content
           style={{
             padding: 24,
-            // TODO find 240px and move to single source
-            width: "calc(100vw - 240px)",
           }}
         >
           {children}
         </AntdLayout.Content>
-      </Flex>
+      </div>
     </AntdLayout>
   );
 };

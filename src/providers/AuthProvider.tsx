@@ -9,6 +9,14 @@ import React, {
 } from "react";
 import { useApp } from "./AppProvider";
 
+export const logoutQuery = gql`
+  query logout {
+    logout {
+      success
+    }
+  }
+`;
+
 const loginQuery = gql`
   query login($login: String!, $password: String!) {
     login(login: $login, password: $password) {
@@ -58,6 +66,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [me] = useLazyQuery(meQuery);
   const [loginReq] = useLazyQuery(loginQuery);
+  const [logoutReq] = useLazyQuery(logoutQuery);
   const [registerReq] = useMutation(registerMutation);
   // TODO any
   const [user, setUser] = useState<any>(null);
@@ -125,8 +134,8 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const logout = async () => {
     localStorage.removeItem("accessToken");
+    await logoutReq();
     setUser(null);
-    window.location.reload();
   };
 
   useEffect(() => {

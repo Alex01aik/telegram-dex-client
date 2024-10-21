@@ -8,6 +8,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { fromPromise } from "@apollo/client/link/utils";
+import { logoutQuery } from "../providers/AuthProvider";
 
 const refreshQuery = gql`
   query refresh {
@@ -27,9 +28,13 @@ const refreshToken = async (client: ApolloClient<any>) => {
 
     if (newAccessToken) {
       localStorage.setItem("accessToken", newAccessToken);
+      return newAccessToken;
     }
   } catch (error) {
     console.error("Error refreshing token", error);
+    await client.query({
+      query: logoutQuery,
+    });
     return null;
   }
 };
@@ -88,4 +93,14 @@ export const graphqlClient = new ApolloClient({
   link: authLink.concat(errorLink).concat(httpLink),
   cache: new InMemoryCache(),
   credentials: "include",
+  defaultOptions: {
+    query: {
+      fetchPolicy: "no-cache",
+      errorPolicy: "all",
+    },
+    watchQuery: {
+      fetchPolicy: "no-cache",
+      errorPolicy: "all",
+    },
+  },
 });

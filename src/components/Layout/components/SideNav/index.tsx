@@ -1,6 +1,7 @@
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../../providers/AuthProvider";
+import { useEffect, useState } from "react";
 
 export type NavItemType = {
   label: string | JSX.Element;
@@ -42,15 +43,34 @@ export type SideNavProps = {};
 
 const SideNav: React.FC<SideNavProps> = () => {
   const { user, isAdmin } = useAuth();
+  const [menuMode, setMenuMode] = useState("vertical");
+
+  const updateMenuMode = () => {
+    if (window.innerWidth < 600) {
+      setMenuMode("horizontal");
+    } else {
+      setMenuMode("vertical");
+    }
+  };
+
+  useEffect(() => {
+    updateMenuMode();
+    window.addEventListener("resize", updateMenuMode);
+
+    return () => {
+      window.removeEventListener("resize", updateMenuMode);
+    };
+  }, []);
+
   return (
     <Menu
+      style={{
+        minWidth: 240,
+      }}
       items={
         user ? (isAdmin ? [...adminNavs, ...userNavs] : userNavs) : unAuthNavs
       }
-      style={{
-        width: "240px",
-        minWidth: "240px",
-      }}
+      mode={menuMode as any}
     />
   );
 };

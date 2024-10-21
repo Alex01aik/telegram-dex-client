@@ -5,23 +5,23 @@ import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useApp } from "../../providers/AppProvider";
 
-const updateOneUserMutation = gql`
-  mutation updateOneUser($id: String!, $name: String, $isAutoTrade: Boolean) {
-    updateOneUser(id: $id, name: $name, isAutoTrade: $isAutoTrade) {
+const updateMyUserMutation = gql`
+  mutation updateMyUser($name: String, $isAutoTrade: Boolean) {
+    updateMyUser(name: $name, isAutoTrade: $isAutoTrade) {
       id
     }
   }
 `;
 
 const ProfilePage: React.FC = () => {
-  const { notificationApi } = useApp();
+  const { notificationApi, requestWithErrorNotificationWrapper } = useApp();
   const { user, refreshUser } = useAuth();
   const [isEditable, setIsEditable] = useState(false);
-  const [updateOneUser] = useMutation(updateOneUserMutation);
+  const [updateMyUser] = useMutation(updateMyUserMutation);
 
   const updateProfile = async (values: any) => {
-    try {
-      const res = await updateOneUser({
+    await requestWithErrorNotificationWrapper(async () => {
+      const res = await updateMyUser({
         variables: {
           id: user.id,
           ...values,
@@ -39,12 +39,7 @@ const ProfilePage: React.FC = () => {
           showProgress: true,
         });
       }
-    } catch (error) {
-      notificationApi.error({
-        message: JSON.stringify(error),
-        showProgress: true,
-      });
-    }
+    });
   };
 
   return (

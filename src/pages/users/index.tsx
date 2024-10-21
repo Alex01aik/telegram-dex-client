@@ -24,9 +24,9 @@ const findManyUsersQuery = gql`
   }
 `;
 
-const updateOneUserRoleMutation = gql`
-  mutation updateOneUserRole($id: String!, $role: UserRole!) {
-    updateOneUserRole(id: $id, role: $role) {
+const updateOneUserMutation = gql`
+  mutation updateOneUser($id: String!, $role: UserRole!) {
+    updateOneUser(id: $id, role: $role) {
       id
     }
   }
@@ -38,7 +38,7 @@ const UsersPage: React.FC = () => {
   const [fetchData, { data: findManyData, loading: findManyLoading, refetch }] =
     useLazyQuery(findManyUsersQuery);
 
-  const [updateOneUserRole] = useMutation(updateOneUserRoleMutation);
+  const [updateOneUser] = useMutation(updateOneUserMutation);
 
   const columns: TableColumnsType = [
     {
@@ -69,7 +69,7 @@ const UsersPage: React.FC = () => {
           ]}
           onSelect={async (value) => {
             await requestWithErrorNotificationWrapper(async () => {
-              const res = await updateOneUserRole({
+              const res = await updateOneUser({
                 variables: {
                   id: item.id,
                   role: value,
